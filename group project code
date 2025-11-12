@@ -1,6 +1,8 @@
 #include <stdio.h>
 #define AIR_DENSITY 1.225  // kg/m³ (at sea level)
-#define BETZ_LIMIT 0.5     // Maximum theoretical efficiency (Betz limit)
+#define BETZ_LIMIT 0.5
+#define PI 3.141592653
+// Maximum theoretical efficiency (Betz limit)
 int main(void)
 {
     float panel_area;        // in square meters
@@ -8,10 +10,12 @@ int main(void)
     float solar_irradiance;  // input power per unit area (W/m²)
     float panel_efficiency;  // in percent
     float wind_speed;
-    float blade_area;
+    float blade_length;
+    float swept_area;
     float turbine_power;
     float turbine_efficiency;
     double electrical_power_output;
+    double available_wind_power;
     {
         printf("--- Solar System Input ---\n");
     printf("Enter Panel Surface Area (m^2): ");
@@ -25,28 +29,34 @@ int main(void)
     printf("Solar Panel Efficiency is: %.2f%%\n", panel_efficiency);
     } 
     {
-        // Input values
-    printf("\n--- Wind Turbine Inputs ---");
-    printf("\nEnter the electrical power output (in watts): ");
+    // Input values
+    printf("\n--- Wind Turbine Inputs ---\n");
+    printf("Enter the electrical power output (in watts): ");
     scanf("%lf", &electrical_power_output);
 
-    printf("Enter the swept area of the turbine blades (in square meters): ");
-    scanf("%lf", &blade_area);
+    printf("Enter the blade length of the turbine (in meters): ");
+    scanf("%lf", &blade_length);
+
+    // Calculate the swept area (A = πr²)
+    swept_area = PI * blade_length * blade_length;
 
     printf("Enter the wind speed (in meters per second): ");
     scanf("%lf", &wind_speed);
 
-    // Calculate the available wind power (theoretical power from the wind)
-    double available_wind_power = BETZ_LIMIT * AIR_DENSITY * blade_area * wind_speed * wind_speed * wind_speed / 2;
+    // Calculate available (theoretical) wind power using the Betz limit
+    // P_available = 0.5 * ρ * A * v³ * Betz_limit
+    available_wind_power = 0.5 * AIR_DENSITY * swept_area * (wind_speed, 3) * BETZ_LIMIT;
 
-    // Calculate the efficiency of the wind turbine
-    turbine_efficiency = (electrical_power_output / available_wind_power) * 100;
+    // Calculate the efficiency (%)
+    turbine_efficiency = (electrical_power_output / available_wind_power) * 100.0;
 
     // Output the result
-    printf("The energy conversion efficiency of the wind turbine is: %.2f%%\n", turbine_efficiency);
+    printf("\n--- Results ---\n");
+    printf("Swept Area: %.2f m²\n", swept_area);
+    printf("Available Wind Power: %.2f W\n", available_wind_power);
+    printf("Energy Conversion Efficiency: %.2f%%\n", turbine_efficiency);
 
     return 0;
-        
-    }
+}
 }
 
