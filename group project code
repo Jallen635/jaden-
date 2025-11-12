@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int main(void)
+{
+    float panel_area;        // in square meters
+    float solar_power;       // output power (in watts)
+    float solar_irradiance;  // input power per unit area (W/m²)
+    float panel_efficiency;  // in percent
+    float wind_speed;
+    float blade_length;
+    float turbine_power;
+    {
+        printf("--- Solar System Input ---\n");
+    printf("Enter Panel Surface Area (m^2): ");
+    scanf("%f", &panel_area);
+    printf("Enter Solar Panel Output Power (W): ");
+    scanf("%f", &solar_power);
+    printf("Enter Solar Irradiance (W/m^2): ");
+    scanf("%f", &solar_irradiance);
+    // Efficiency = (Output Power / (Irradiance * Area)) * 100
+    panel_efficiency = (solar_power / (solar_irradiance * panel_area)) * 100.0;
+    printf("Solar Panel Efficiency is: %.2f%%\n", panel_efficiency);
+    return 0;
+    } 
+}
+
