@@ -1,0 +1,67 @@
+#include <stdio.h>
+#define AIR_DENSITY 1.225     // kg/m³ (at sea level)
+#define BETZ_LIMIT 0.5        // Betz limit (maximum theoretical efficiency)
+#define PI 3.141592653
+
+int main(void)
+{
+    float panel_area;          // in square meters
+    float solar_power;         // output power (in watts)
+    float solar_irradiance;    // input power per unit area (W/m²)
+    float panel_efficiency;    // in percent
+
+    double wind_speed;
+    double blade_length;
+    double swept_area;
+    double turbine_efficiency;
+    double electrical_power_output;
+    double available_wind_power;
+
+    // --- Solar Section ---
+    printf("--- Solar System Input ---\n");
+    printf("Enter Panel Surface Area (m^2): ");
+    scanf("%f", &panel_area);
+
+    printf("Enter Solar Panel Output Power (W): ");
+    scanf("%f", &solar_power);
+
+    printf("Enter Solar Irradiance (W/m^2): ");
+    scanf("%f", &solar_irradiance);
+
+    // Efficiency = (Output Power / (Irradiance * Area)) * 100
+    panel_efficiency = (solar_power / (solar_irradiance * panel_area)) * 100.0f;
+    printf("Solar Panel Efficiency is: %.2f%%\n", panel_efficiency);
+
+    // --- Wind Turbine Section ---
+    printf("\n--- Wind Turbine Inputs ---\n");
+    printf("Enter the electrical power output (in watts): ");
+    scanf("%lf", &electrical_power_output);
+
+    printf("Enter the blade length of the turbine (in meters): ");
+    scanf("%lf", &blade_length);
+
+    // Calculate the swept area (A = πr²)
+    swept_area = PI * blade_length * blade_length;
+
+    printf("Enter the wind speed (in meters per second): ");
+    scanf("%lf", &wind_speed);
+    
+    available_wind_power = 0.5 * AIR_DENSITY * swept_area * (wind_speed * wind_speed * wind_speed) * BETZ_LIMIT;
+
+    // Calculate the efficiency (%)
+    turbine_efficiency = (electrical_power_output / available_wind_power) * 100.0;
+
+    // --- Output Results ---
+    printf("\n--- Results ---\n");
+    printf("Swept Area: %.2f m²\n", swept_area);
+    printf("Available Wind Power: %.2f W\n", available_wind_power);
+    printf("Energy Conversion Efficiency: %.2f%%\n", turbine_efficiency);
+    
+    //calculate difference in efficiency 
+    {
+        double efficiency_difference;
+        efficiency_difference = ((turbine_efficiency-panel_efficiency)/(turbine_efficiency+panel_efficiency)/2)*100;
+        printf("\nThe Difference in Efficiency is %lf%%",&efficiency_difference);
+    }
+    return 0;
+}
