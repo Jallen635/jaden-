@@ -26,7 +26,8 @@ int main(void)
     } 
     {
         // Input values
-    printf("Enter the electrical power output (in watts): ");
+    printf("\n--- Wind Turbine Inputs ---");
+    printf("\nEnter the electrical power output (in watts): ");
     scanf("%lf", &electrical_power_output);
 
     printf("Enter the swept area of the turbine blades (in square meters): ");
@@ -42,7 +43,7 @@ int main(void)
     turbine_efficiency = (electrical_power_output / available_wind_power) * 100;
 
     // Output the result
-    printf("The energy conversion efficiency of the wind turbine is: %.2f%%\n", panel_efficiency);
+    printf("The energy conversion efficiency of the wind turbine is: %.2f%%\n", turbine_efficiency);
 
     return 0;
         
